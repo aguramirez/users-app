@@ -3,7 +3,7 @@ export const Userform = () => {
 
     return(
         <>
-            <p>Formukario de usuarios</p>
+            <p>Formulario de usuarios</p>
         </>
     )
 }
