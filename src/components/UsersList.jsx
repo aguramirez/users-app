@@ -1,6 +1,6 @@
 import { UserRow } from "./UserRow"
 
-export const UsersList = ({ users =[] }) => {
+export const UsersList = ({ users }) => {
 
     return (
         <table className="table table-hover table-striped">
