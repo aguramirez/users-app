@@ -1,5 +1,6 @@
 
-export const UserRow = ({id, username, email}) => {
+export const UserRow = ({handlerUserSelectedForm, handlerRemoveUser, id, username, email}) => {
+
 
     return (
         <tr>
@@ -9,12 +10,18 @@ export const UserRow = ({id, username, email}) => {
             <td>
                 <button
                     type="button"
-                    className="btn btn-secondary btn-sm">update</button>
+                    className="btn btn-secondary btn-sm"
+                    onClick={() => handlerUserSelectedForm({
+                        id: id,
+                        username: username,
+                        email: email
+                    })}>update</button>
             </td>
             <td>
                 <button
                     type="button"
-                    className="btn btn-danger btn-sm">remove</button>
+                    className="btn btn-danger btn-sm"
+                    onClick={() => handlerRemoveUser(id)}>remove</button>
             </td>
         </tr>
     )
