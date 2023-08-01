@@ -1,75 +1,75 @@
-import { useReducer, useState } from "react";
 import { Userform } from "./components/UserForm"
 import { UsersList } from "./components/UsersList"
-import { usersReducer } from "./reducers/usersReducer";
+import { useUsers } from "./hooks/useUsers";
 
-const initialUsers = [
-    {
-        id: 1,
-        username: 'pepe',
-        password: '12345',
-        email: 'pepe@correo.com'
-    },
-];
 
-const initialUserForm = {
-    id: 0,
-    username: '',
-    password: '',
-    email: ''
-}
 export const UsersApp = () => {
 
-    const [users, dispatch] = useReducer(usersReducer, initialUsers);
-    const [userSelected, setUserSelected] = useState(initialUserForm);
-
-    const handlerAddUser = (user) => {
-        // console.log(user);
-        let type;
-
-        if(user.id === 0){
-            type = 'addUser';
-        }else{
-            type = 'updateUser'
-        }
-        dispatch({
-            type: type,
-            payload: user
-        })
-    }
-
-    const handlerRemoveUser = (id) => {
-        dispatch({
-            type: 'removeUser',
-            payload: id
-        })
-    }
-
-    const handlerUserSelectedForm = (user) => {
-        // console.log(user);
-        setUserSelected({...user});
-    }
+    const {
+        users,
+        userSelected,
+        initialUserForm,
+        visibleForm,
+        handlerAddUser,
+        handlerRemoveUser,
+        handlerUserSelectedForm,
+        handlerOpenForm,
+        handlerCloseForm,
+    } = useUsers();
 
     return (
-        <div className="container my-4">
-            <h2>Users App</h2>
-            <div className="row">
-                <div className="col">
-                    <Userform
-                        initialUserForm={initialUserForm}
-                        userSelected={userSelected}
-                        handlerAddUser={handlerAddUser} />
-                </div>
-                <div className="col">
-                    {users.length === 0
-                        ? <div className="alert alert-warning">No hay usuarios en el sistema!</div>
-                        : <UsersList
-                            handlerUserSelectedForm={handlerUserSelectedForm}
-                            handlerRemoveUser={handlerRemoveUser}
-                            users={users} />}
+        <>
+            {
 
+                !visibleForm ||
+                <div className="abrir-modal animacion fadeIn">
+                    <div className="modal" style={ {display:"block"}} tabIndex="-1">
+                        <div className="modal-dialog" role="document">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <h5 className="modal-title">
+                                        {userSelected.id > 0 ? 'Editar' : 'Crear'} Modal Usuarios
+                                    </h5>
+
+                                </div>
+                                <div className="modal-body">
+                                    <Userform
+                                        initialUserForm={initialUserForm}
+                                        userSelected={userSelected}
+                                        handlerAddUser={handlerAddUser}
+                                        handlerCloseForm={handlerCloseForm} />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            }
+
+            <div className="container my-4">
+                <h2>Users App</h2>
+                <div className="row">
+
+                    <div className="col">
+                        {
+                            visibleForm ||
+                            <button className="btn btn-primary my-2" onClick={handlerOpenForm}>
+                                Nuevo usuario
+                            </button>
+                        }
+                        {
+                            users.length === 0
+                                ? <div className="alert alert-warning">No hay usuarios en el sistema!</div>
+                                : <UsersList
+                                    handlerUserSelectedForm={handlerUserSelectedForm}
+                                    handlerRemoveUser={handlerRemoveUser}
+                                    users={users} />
+                        }
+
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     )
+
 }
