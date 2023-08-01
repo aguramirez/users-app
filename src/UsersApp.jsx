@@ -1,55 +1,33 @@
-import { UserModalForm } from "./components/UserModalForm";
-import { UsersList } from "./components/UsersList"
-import { useUsers } from "./hooks/useUsers";
+import { useReducer } from "react"
+import { LoginPage } from "./auth/pages/LoginPage"
+import { UsersPage } from "./pages/UsersPage"
+import { loginReducer } from "./auth/reducers/LoginReducer"
+import Swal from "sweetalert2"
 
+const initialLogin = {
+    isAuth: false,
+    user: undefined,
+}
 
 export const UsersApp = () => {
 
-    const {
-        users,
-        userSelected,
-        initialUserForm,
-        visibleForm,
-        handlerAddUser,
-        handlerRemoveUser,
-        handlerUserSelectedForm,
-        handlerOpenForm,
-        handlerCloseForm,
-    } = useUsers();
+    const [login, dispatch] = useReducer(loginReducer, initialLogin);
 
+    const handlerLogin = ({username, password}) => {
+        if(username === 'admin' && password === '12345'){
+            const user = {username: 'admin'}
+            dispatch({
+                type: 'login',
+                payload: user,
+            });
+        }else{
+            Swal.fire('Error Login', 'Username o password invalidos', 'error');
+        }
+    }
     return (
         <>
-            {!visibleForm ||
-                <UserModalForm
-                    userSelected={userSelected}
-                    initialUserForm={initialUserForm}
-                    handlerAddUser={handlerAddUser}
-                    handlerCloseForm={handlerCloseForm}
-                />}
-
-            <div className="container my-4">
-                <h2>Users App</h2>
-                <div className="row">
-
-                    <div className="col">
-                        {
-                            visibleForm ||
-                            <button className="btn btn-primary my-2" onClick={handlerOpenForm}>
-                                Nuevo usuario
-                            </button>
-                        }
-                        {
-                            users.length === 0
-                                ? <div className="alert alert-warning">No hay usuarios en el sistema!</div>
-                                : <UsersList
-                                    handlerUserSelectedForm={handlerUserSelectedForm}
-                                    handlerRemoveUser={handlerRemoveUser}
-                                    users={users} />
-                        }
-
-                    </div>
-                </div>
-            </div>
+            {login.isAuth ? <UsersPage /> : <LoginPage handlerLogin={handlerLogin} /> }
+            
         </>
     )
 
