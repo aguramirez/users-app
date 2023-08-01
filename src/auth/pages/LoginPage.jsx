@@ -6,14 +6,14 @@ const initialLoginForm = {
     password: '',
 }
 
-export const LoginPage = ({handlerLogin}) => {
+export const LoginPage = ({ handlerLogin }) => {
 
     const [loginForm, setLoginForm] = useState(initialLoginForm);
-    const {username, password} = loginForm;
+    const { username, password } = loginForm;
 
 
-    const onInputChange = ({target}) => {
-        const {name, value} = target;
+    const onInputChange = ({ target }) => {
+        const { name, value } = target;
         setLoginForm({
             ...loginForm,
             [name]: value,
@@ -22,33 +22,35 @@ export const LoginPage = ({handlerLogin}) => {
 
     const onSubmit = (event) => {
         event.preventDefault();
-        if(!username || !password) {
+        if (!username || !password) {
             Swal.fire('Error de validacion', 'Username y password requeridos', 'error');
         }
 
         // aca implementamo un login con el backend, ahora solo lo simulamos
 
-        handlerLogin({username, password});
+        handlerLogin({ username, password });
 
         setLoginForm(initialLoginForm);
     }
     return (
-
-        <div className="modal" style={ {display:"block"}} tabIndex="-1">
+        <div className="modal" style={{ display: "block" }} tabIndex="-1">
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title">Login Page</h5>
+                        <div className="alert alert-primary" role="alert">
+                            username: admin, password: 12345
+                        </div>
                     </div>
                     <form onSubmit={onSubmit}>
                         <div className="modal-body">
-                            <input 
+                            <input
                                 className="form-control my-3 w-75"
                                 placeholder="Username"
                                 name="username"
                                 value={username}
                                 onChange={onInputChange} />
-                            <input 
+                            <input
                                 className="form-control my-3 w-75"
                                 placeholder="Pasword"
                                 type="password"

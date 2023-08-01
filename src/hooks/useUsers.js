@@ -6,9 +6,27 @@ import Swal from "sweetalert2";
 const initialUsers = [
     {
         id: 1,
-        username: 'pepe',
+        username: 'agustin',
         password: '12345',
-        email: 'pepe@correo.com'
+        email: 'agustin@correo.com'
+    },
+    {
+        id: 2,
+        username: 'Charles',
+        password: '12345',
+        email: 'charles@correo.com'
+    },
+    {
+        id: 3,
+        username: 'Max',
+        password: '12345',
+        email: 'max@correo.com'
+    },
+    {
+        id: 4,
+        username: 'Nikita',
+        password: '12345',
+        email: 'nikita@correo.com'
     },
 ];
 
