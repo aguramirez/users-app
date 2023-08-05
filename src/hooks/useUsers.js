@@ -25,9 +25,9 @@ const initialUsers = [
     },
     {
         id: 4,
-        username: 'Nikita',
+        username: 'Mick',
         password: '12345',
-        email: 'nikita@correo.com'
+        email: 'mick@correo.com'
     },
 ];
 
