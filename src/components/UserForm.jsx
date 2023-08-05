@@ -36,6 +36,15 @@ export const Userform = ({ userSelected, handlerAddUser, initialUserForm, handle
 
             return;
         }
+        if (!email.includes('@')){
+            Swal.fire(
+                'Error de validacion email',
+                'El email debe ser valido, incluir @',
+                'error'
+            );
+
+            return;
+        }
         // console.log(userForm);
 
         // guardar el user form en el listado de usuarios
