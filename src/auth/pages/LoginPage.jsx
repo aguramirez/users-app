@@ -35,40 +35,42 @@ export const LoginPage = () => {
 
         setLoginForm(initialLoginForm);
     }
+    console.log(" ROLE_ADMIN = username: admin, password: 12345 \n ROLE_USER = username: agustin, password: agustin");
     return (
-        <div className="modal" style={{ display: "block" }} tabIndex="-1">
-            <div className="modal-dialog">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <h5 className="modal-title">Login Page</h5>
-                        <div className="alert alert-primary" role="alert">
-                            username: admin, password: 12345
+        <>
+            <div className="modal" style={{ display: "block" }} tabIndex="-1">
+
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title">Login Page</h5>
+
                         </div>
+                        <form onSubmit={onSubmit}>
+                            <div className="modal-body">
+                                <input
+                                    className="form-control my-3 w-75"
+                                    placeholder="Username"
+                                    name="username"
+                                    value={username}
+                                    onChange={onInputChange} />
+                                <input
+                                    className="form-control my-3 w-75"
+                                    placeholder="Pasword"
+                                    type="password"
+                                    name="password"
+                                    value={password}
+                                    onChange={onInputChange} />
+                            </div>
+                            <div className="modal-footer">
+                                <button
+                                    className="btn btn-primary"
+                                    type="submit">Login</button>
+                            </div>
+                        </form>
                     </div>
-                    <form onSubmit={onSubmit}>
-                        <div className="modal-body">
-                            <input
-                                className="form-control my-3 w-75"
-                                placeholder="Username"
-                                name="username"
-                                value={username}
-                                onChange={onInputChange} />
-                            <input
-                                className="form-control my-3 w-75"
-                                placeholder="Pasword"
-                                type="password"
-                                name="password"
-                                value={password}
-                                onChange={onInputChange} />
-                        </div>
-                        <div className="modal-footer">
-                            <button
-                                className="btn btn-primary"
-                                type="submit">Login</button>
-                        </div>
-                    </form>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
