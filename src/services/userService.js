@@ -2,12 +2,14 @@ import axios from "axios"
 
 const BASE_URL = 'http://localhost:8080/users';
 
-const config = {
-    headers: {
-        "Authorization": sessionStorage.getItem('token'),
-        "Content-Type": "application/json",
+const config = () => {
+    return {
+        headers: {
+            "Authorization": sessionStorage.getItem('token'),
+            "Content-Type": "application/json",
+        }
     }
-}
+} 
 
 export const findAll = async () => {
     try {
@@ -25,7 +27,7 @@ export const save = async ({ username, email, password }) => {
             username: username,
             email: email,
             password: password,
-        }, config);
+        }, config());
     } catch (error) {
         throw error;
     }
@@ -37,7 +39,7 @@ export const update = async ({ id, username, email }) => {
             username,
             email,
             //password: 'nothing', //provisorio para que valide en el formulario update, de todas formas en el backend no hace update en el password
-        }, config);
+        }, config());
     } catch (error) {
         throw error;
     }
@@ -45,7 +47,7 @@ export const update = async ({ id, username, email }) => {
 
 export const remove = async ({ id }) => {
     try {
-        await axios.delete(`${BASE_URL}/${id}`, config)
+        await axios.delete(`${BASE_URL}/${id}`, config())
     } catch (error) {
         console.error(error);
     }
