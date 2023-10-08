@@ -1,8 +1,9 @@
-import { useReducer, useState } from "react";
+import { useContext, useReducer, useState } from "react";
 import { usersReducer } from "../reducers/usersReducer";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { findAll, remove, save, update } from "../services/userService";
+import { AuthContext } from "../auth/context/AuthContext";
 
 
 const initialUsers = [];
@@ -29,6 +30,8 @@ export const useUsers = () => {
 
     const naviagte = useNavigate();
 
+    const {login} = useContext(AuthContext);
+
     const getUsers = async () => {
         const result = await findAll();
         dispatch({
@@ -38,6 +41,8 @@ export const useUsers = () => {
     }
 
     const handlerAddUser = async (user) => {
+
+        if(!login.isAdmin) return;
 
         let response;
 
@@ -83,7 +88,7 @@ export const useUsers = () => {
     }
 
     const handlerRemoveUser = (id) => {
-
+        if(!login.isAdmin) return;
         Swal.fire({
             title: 'Esta seguro que desea eliminar?',
             text: "Cuidado el usuario sera eliminado!",
