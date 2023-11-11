@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom"
 import { UserContext } from "../context/UserContext"
 import { AuthContext } from "../auth/context/AuthContext";
 
-export const UserRow = ({ id, username, email }) => {
+export const UserRow = ({ id, username, email, admin }) => {
 
     const { handlerUserSelectedForm, handlerRemoveUser } = useContext(UserContext);
     const {login} = useContext(AuthContext);
@@ -22,7 +22,8 @@ export const UserRow = ({ id, username, email }) => {
                         onClick={() => handlerUserSelectedForm({
                             id: id,
                             username: username,
-                            email: email
+                            email: email,
+                            admin
                         })}>update</button>
                 </td>
                 <td>
