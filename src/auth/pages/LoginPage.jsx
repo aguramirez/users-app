@@ -44,7 +44,9 @@ export const LoginPage = () => {
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title">Login Page</h5>
-
+                            <div class="alert alert-primary" role="alert">
+                                open console for keys!
+                            </div>
                         </div>
                         <form onSubmit={onSubmit}>
                             <div className="modal-body">
