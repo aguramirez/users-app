@@ -5,33 +5,18 @@ import { useNavigate } from "react-router-dom";
 import { findAll, remove, save, update } from "../services/userService";
 import { AuthContext } from "../auth/context/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
-import {addUser,removeUser,updateUser,cargandoUsers, } from "../store/slices/users/usersSlice";
+import {initialUserForm, addUser,removeUser,updateUser,cargandoUsers,onUserSelectedForm, onOpenForm, onCloseForm } from "../store/slices/users/usersSlice";
 
-
-const initialUsers = [];
-
-const initialUserForm = {
-    id: 0,
-    username: '',
-    password: '',
-    email: '',
-    admin: false,
-}
-const initialErrors = {
-    username: '',
-    password: '',
-    email: ''
-}
 
 export const useUsers = () => {
 
     // const [users, dispatch] = useReducer(usersReducer, initialUsers);
-    const { users } = useSelector(state => state.users);
+    const { users, userSelected, visibleForm, errors } = useSelector(state => state.users);
     const dispatch = useDispatch();
-    const [userSelected, setUserSelected] = useState(initialUserForm);
-    const [visibleForm, setVisibleForm] = useState(false);
+    // const [userSelected, setUserSelected] = useState(initialUserForm);
+    // const [visibleForm, setVisibleForm] = useState(false);
 
-    const [errors, setErrors] = useState(initialErrors);
+    // const [errors, setErrors] = useState(initialErrors);
 
     const naviagte = useNavigate();
 
@@ -127,17 +112,19 @@ export const useUsers = () => {
 
     const handlerUserSelectedForm = (user) => {
         // console.log(user);
-        setVisibleForm(true);
-        setUserSelected({ ...user });
+        // setVisibleForm(true);
+        // setUserSelected({ ...user });
+        dispatch(onUserSelectedForm({...user}))
     }
 
     const handlerOpenForm = () => {
-        setVisibleForm(true);
+        dispatch(onOpenForm())
     }
 
     const handlerCloseForm = () => {
-        setVisibleForm(false);
-        setUserSelected(initialUserForm);
+        // setVisibleForm(false);
+        // setUserSelected(initialUserForm);
+        dispatch(onCloseForm())
         setErrors({});
     }
 
