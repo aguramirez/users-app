@@ -1,32 +1,26 @@
-import { useReducer } from "react";
-import { loginReducer } from "../reducers/LoginReducer";
 import Swal from "sweetalert2";
 import { loginUser } from "../services/authService";
 import { useNavigate } from "react-router-dom";
-
-const initialLogin = JSON.parse(sessionStorage.getItem('login')) || {
-    isAuth: false,
-    isAdmin: false,
-    user: undefined,
-}
+import { useDispatch, useSelector } from "react-redux";
+import { onLogin, onLogout } from "../../store/slices/auth/authSlice";
 
 export const useAuth = () => {
 
-    const [login, dispatch] = useReducer(loginReducer, initialLogin);
+    const dispatch = useDispatch();
+    const {user, isAdmin, isAuth} = useSelector(state => state.auth);
+    // const [login, dispatch] = useReducer(loginReducer, initialLogin);
     const naviagte = useNavigate();
 
     const handlerLogin = async ({ username, password }) => {
-        
+
         try {
             const response = await loginUser({ username, password });
             const token = response.data.token;
             const claims = JSON.parse(window.atob(token.split(".")[1]));
             console.log(claims);
             const user = { username: response.data.username } // claims.username  /  claims.sub
-            dispatch({
-                type: 'login',
-                payload: {user, isAdmin: claims.isAdmin},
-            });
+            dispatch(onLogin({ user, isAdmin: claims.isAdmin }));
+
             sessionStorage.setItem('login', JSON.stringify({
                 isAuth: true,
                 isAdmin: claims.isAdmin,
@@ -34,10 +28,10 @@ export const useAuth = () => {
             }));
             sessionStorage.setItem('token', `Bearer ${token}`);
             naviagte('/users');
-        } catch(error) {
-            if(error.response?.status == 401){
+        } catch (error) {
+            if (error.response?.status == 401) {
                 Swal.fire('Error Login', 'Username o password invalidos', 'error');
-            }else if (error.response?.status == 403){
+            } else if (error.response?.status == 403) {
                 Swal.fire('Error Login', 'No tiene acceso al recurso o permisos!', 'error');
             } else {
                 throw error;
@@ -46,16 +40,18 @@ export const useAuth = () => {
     }
 
     const handlerLogout = () => {
-        dispatch({
-            type: 'logout',
-        });
+        dispatch(onLogout())
         sessionStorage.removeItem('token');
         sessionStorage.removeItem('login');
         sessionStorage.clear();
     }
 
-    return{
-        login,
+    return {
+        login: {
+            user,
+            isAdmin,
+            isAuth
+        },
         handlerLogin,
         handlerLogout
     }
