@@ -34,7 +34,7 @@ export const usersSlice = createSlice({
             state.visibleForm = false;
         },
         removeUser: (state, action) => {
-            state.users = state.filter(u => u.id !== action.payload);
+            state.users = state.users.filter(u => u.id !== action.payload);
         },
         updateUser: (state, action) => {
             state.users = state.users.map(u => {

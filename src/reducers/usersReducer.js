@@ -1,4 +1,4 @@
-
+//esto ya no se utiliza por usar redux
 export const usersReducer = (state=[], action) =>{
 
     switch (action.type) {

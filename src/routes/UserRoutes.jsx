@@ -2,11 +2,10 @@ import { Navigate, Route, Routes } from "react-router-dom"
 import { UsersPage } from "../pages/UsersPage"
 import { NavBar } from "../components/layout/NavBar"
 import { RegisterPage } from "../pages/RegisterPage"
-import { AuthContext } from "../auth/context/AuthContext"
-import { useContext } from "react"
+import { useSelector } from "react-redux"
 
 export const UserRoutes = () => {
-    const { login } = useContext(AuthContext);
+    const { isAdmin } = useSelector(state => state.auth);
 
     return (
         <>
@@ -15,7 +14,7 @@ export const UserRoutes = () => {
 
                 <Route path="users" element={<UsersPage />} />
 
-                {!login.isAdmin || <>
+                {!isAdmin || <>
                     <Route path="users/register" element={<RegisterPage />} />
                     <Route path="users/edit/:id" element={<RegisterPage />} />
                 </>}

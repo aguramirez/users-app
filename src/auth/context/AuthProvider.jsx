@@ -1,3 +1,4 @@
+//esto ya no se utiliza por usar redux
 import { useAuth } from "../hooks/useAuth";
 import { AuthContext } from "./AuthContext"
 
